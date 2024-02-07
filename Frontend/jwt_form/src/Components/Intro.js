@@ -18,7 +18,7 @@ export default function Intro(){
                 </Figure>
                 </Col>
                 <Col sm={7}>
-                <h1 class='fs-1 text-center'>Welcome to SignIn.com</h1>
+                <h1 className='fs-1 text-center'>Welcome to SignIn.com</h1>
                 </Col>
                 <Col sm={3}>
                     <Button variant='secondary' href='/'>Back to Home</Button>
