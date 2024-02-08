@@ -11,9 +11,23 @@ export default function Register(){
         password:""
     });
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
-        alert(values.user+" "+values.password+" "+values.email)
+        const res=await fetch("http://localhost:4000/api/users",{
+            headers:{
+                "Content-Type": "application/json"
+            },
+            method:"POST",
+            body: JSON.stringify({
+                email: values.email,
+                username: values. user,
+                password: values.password
+            })
+
+        });
+        const data = await res.json();
+        alert(data);
+        //alert(values.user+" "+values.password+" "+values.email)
     }
 
     function handleChange(e){

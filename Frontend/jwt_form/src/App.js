@@ -5,9 +5,20 @@ import SignIn from './Components/SignIn';
 import Register from './Components/Register';
 import Choose from './Components/Choose';
 import Intro from './Components/Intro';
+import { useEffect, useState } from 'react';
 
 
 function App() {
+  const[usuarios, setUsuarios]=useState([]);
+  useEffect(()=>{
+    fetchData();
+  },[]);
+
+  async function fetchData(){
+    const res=await fetch("http://localhost:4000/api/users");
+    const data=await res.json();
+    setUsuarios(data);
+  }
   return (
     <Router>
       <Intro/>
