@@ -26,7 +26,13 @@ export default function Register(){
 
         });
         const data = await res.json();
-        alert(data);
+        if(data.token===undefined){
+            alert(data);
+        }
+        else{
+            alert("Usuario registrado exitosamente. Su token de acceso es: "+ data.token);
+        }
+        
         //alert(values.user+" "+values.password+" "+values.email)
     }
 

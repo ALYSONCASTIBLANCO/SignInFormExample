@@ -25,11 +25,17 @@ async function handleSubmit(e){
         method:"POST",
         body: JSON.stringify({
             username:values.user,
-            password:values.password
+            mypassword:values.password
         })
     });
     const data=await res.json();
-    alert(data);
+    if(data.token===undefined){
+        alert(data);
+    }
+    else{
+        alert("Usuario logueado exitosamente. Su token de acceso es: "+ data.token);
+    }
+    
 
     //alert(values.user+" "+values.password);
 
