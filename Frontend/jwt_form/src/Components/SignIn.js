@@ -5,6 +5,7 @@ import Container from "react-bootstrap/esm/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from 'react';
+import ButtonGroup from 'react-bootstrap/esm/ButtonGroup';
 
 
 export default function SignIn(){
@@ -15,9 +16,22 @@ export default function SignIn(){
     }        
     );
     //Ejecuta cuando se da clic en el boton de Submit
-function handleSubmit(e){
+async function handleSubmit(e){
     e.preventDefault();
-    alert(values.user+" "+values.password);
+    const res=await fetch('http://localhost:4000/api/login', {
+        headers:{
+            "Content-Type":"application/json"
+        },
+        method:"POST",
+        body: JSON.stringify({
+            username:values.user,
+            password:values.password
+        })
+    });
+    const data=await res.json();
+    alert(data);
+
+    //alert(values.user+" "+values.password);
 
 }
 //Identifica cuando hay un cambio en el estado 
@@ -48,7 +62,10 @@ setValues(newValues);}
                     <Form.Label>Password</Form.Label>
                     <Form.Control id="password" type='password' name="password" value={values.password} onChange={handleChange} placeholder='Type your Password'></Form.Control>
                 </Form.Group>
-                <Button variant='primary' type='submit' value='Submit' >Sign In</Button>
+                <ButtonGroup size='md' className='mb-2 px-2'>
+                    <Button  type='submit' value='Submit' >Sign In</Button>
+                    <Button  href='/recover'>Forgot user or password</Button>
+                </ButtonGroup>
             </Form>
 
                 </Col>

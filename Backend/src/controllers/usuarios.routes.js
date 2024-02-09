@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { obtenerUsuarios, registrarUsuario, recuperarUsuario, recuperarContrasena} from "./usuarios.controller";
+import { obtenerUsuarios, registrarUsuario, recuperarUsuario, recuperarContrasena, validarUsuario} from "./usuarios.controller";
 const router=Router();
 router.get('/', (req, res)=>{
     res.json({
@@ -9,8 +9,9 @@ router.get('/', (req, res)=>{
 
 router.get('/api/users', obtenerUsuarios);
 router.post('/api/users', registrarUsuario);
-router.get('/api/forgotuser', recuperarUsuario);
-router.get('/api/forgotpass', recuperarContrasena)
+router.post('/api/forgotuser', recuperarUsuario);
+router.post('/api/forgotpass', recuperarContrasena);
+router.post('/api/login', validarUsuario);
 
 
 export default router;

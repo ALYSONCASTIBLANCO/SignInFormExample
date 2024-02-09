@@ -10,6 +10,35 @@ export const obtenerUsuarios=async (req, res)=>{
     }
 }
 
+export const validarUsuario=async (req, res)=>{
+    const {username, password}=req.body;
+    if(username==null || password==null){
+        return res.status(400).json("Por favor ingrese todos los campos");
+    }
+    try {
+        const pool=await getConnection();
+        const result=await pool.request()
+        .input("username", sql.VarChar, username)
+        .query(queries.validarUsuario);
+        //console.log(result.recordset);
+        if(result.rowsAffected==0){
+            res.json('Usuario no encontrado. Verifique que sea escrito correctamente o registrese')     
+        }
+        else{
+            if(username===result.recordset[0]['username'] && password===result.recordset[0]['password']){
+                res.json("Usuario validado");
+            }
+            else{
+                res.json("Usuario no valido, verifique datos o recupere credenciales");
+            }
+        }       
+ 
+    } catch (error) {
+        res.status(404).json(error);
+        
+    }
+}
+
 export const recuperarUsuario=async (req, res)=>{
     const {email}=req.body;
     try {
@@ -20,7 +49,7 @@ export const recuperarUsuario=async (req, res)=>{
             res.json('Usuario no encontrado. Verifique que sea escrito correctamente o registrese')     
         }
         else{
-            res.json({"usuario":result.recordset[0]['username']});
+            res.json(result.recordset[0]['username']);
         }       
     } catch (error) {
        res.status(400).json('Usuario no encontrado. Verifique que sea escrito correctamente o registrese') 
@@ -33,9 +62,8 @@ export const recuperarUsuario=async (req, res)=>{
         const result=await pool.request().input('email', NVarChar, email)
         .query(queries.recuperarUsuario);
         if (result.rowsAffected!=0) {
-            res.json({
-                "message":"Se le enviara a su correo los pasos para recuperar su contrasena"
-            });
+            res.json("Se le enviara a su correo los pasos para recuperar su contrasena"
+            );
             
         } else {
             res.json('Usuario no encontrado. Verifique que sea escrito correctamente o registrese');
